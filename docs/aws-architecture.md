@@ -25,7 +25,7 @@ The frontend never calls Bedrock directly. All LLM calls happen in Lambda.
     "expectedOutcome": "string",
     "direction": "Increase | Decrease | Shift",
     "reasoning": "string",
-    "decisionMetric": "optional",
+    "decisionMetric": "Conversion Rate | CTA CTR | Bounce Rate (optional)",
     "guardrailMetric": "optional",
     "notes": "optional"
   },

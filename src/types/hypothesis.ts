@@ -46,6 +46,8 @@ export const BEDROCK_MODEL_POOL: BedrockModel[] = [
 
 export const DIRECTION_OPTIONS = ['Increase', 'Decrease', 'Shift'] as const
 
+export const DECISION_METRIC_OPTIONS = ['Conversion Rate', 'CTA CTR', 'Bounce Rate'] as const
+
 export const RUBRIC_CRITERIA = [
   'X – Clear change',
   'X – Located/contextualized change',

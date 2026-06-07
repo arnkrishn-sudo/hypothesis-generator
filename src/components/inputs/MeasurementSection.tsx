@@ -1,4 +1,5 @@
 import type { HypothesisInput } from '../../types/hypothesis'
+import { DECISION_METRIC_OPTIONS } from '../../types/hypothesis'
 import { Collapsible } from '../ui/Collapsible'
 import { FormField } from '../ui/FormField'
 
@@ -30,13 +31,18 @@ export function MeasurementSection({ form, isOpen, onToggle, onChange }: Measure
           label="Decision Metric"
           helper="Primary metric used to evaluate experiment success."
         >
-          <input
-            type="text"
+          <select
             className={inputClass}
             value={form.decisionMetric ?? ''}
             onChange={(e) => onChange('decisionMetric', e.target.value)}
-            placeholder="e.g. Premium subscription conversion rate"
-          />
+          >
+            <option value="">Select a decision metric</option>
+            {DECISION_METRIC_OPTIONS.map((opt) => (
+              <option key={opt} value={opt}>
+                {opt}
+              </option>
+            ))}
+          </select>
         </FormField>
         <FormField
           number={9}
