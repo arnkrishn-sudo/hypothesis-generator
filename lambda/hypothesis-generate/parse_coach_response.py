@@ -112,17 +112,16 @@ def _parse_alternative_mechanisms(normalized: str) -> list[str]:
     return alternatives[:2]
 
 
+def _classify_score(score: int) -> str:
+    return "Strong Hypothesis" if score >= 5 else "Needs Improvement"
+
+
 def parse_coach_response(raw: str) -> dict[str, Any]:
     normalized = _normalize_coach_text(raw)
 
-    classification = (
-        "Strong Hypothesis"
-        if re.search(r"strong hypothesis", normalized, re.IGNORECASE)
-        else "Needs Improvement"
-    )
-
     rubric = [_parse_rubric_line(normalized, label) for label in RUBRIC_LABELS]
     score = sum(1 for item in rubric if item["passed"])
+    classification = _classify_score(score)
 
     suggestions = _parse_suggestions(normalized)
     improved_hypothesis = _parse_improved_hypothesis(normalized)

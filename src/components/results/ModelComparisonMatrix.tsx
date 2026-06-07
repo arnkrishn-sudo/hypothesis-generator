@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart2, Trophy } from 'lucide-react'
+import { ArrowRight, BarChart2 } from 'lucide-react'
 import type { ModelResult } from '../../types/hypothesis'
 import { getModelDisplayName } from '../../types/hypothesis'
 import { Badge } from '../ui/Badge'
@@ -17,11 +17,6 @@ export function ModelComparisonMatrix({
   isGenerating,
   onAnalyze,
 }: ModelComparisonMatrixProps) {
-  const topScorerModelId =
-    results && results.length > 0
-      ? results.reduce((best, curr) => (curr.score > best.score ? curr : best)).modelId
-      : null
-
   return (
     <Card className="flex h-full flex-col">
       <div className="flex items-start gap-3 border-b border-slate-100 px-6 py-5">
@@ -69,9 +64,6 @@ export function ModelComparisonMatrix({
                     <tr key={result.modelId} className="border-b border-slate-50 last:border-0">
                       <td className="py-4 pr-4 font-medium text-slate-800">
                         <span className="inline-flex items-center gap-2">
-                          {result.modelId === topScorerModelId && (
-                            <Trophy className="h-4 w-4 text-amber-500" aria-label="Top scorer" />
-                          )}
                           {getModelDisplayName(result.modelId)}
                         </span>
                       </td>
@@ -107,10 +99,7 @@ export function ModelComparisonMatrix({
                   className="rounded-lg border border-slate-100 p-4 space-y-3"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="inline-flex items-center gap-2 font-medium text-slate-800">
-                      {result.modelId === topScorerModelId && (
-                        <Trophy className="h-4 w-4 text-amber-500" />
-                      )}
+                    <span className="font-medium text-slate-800">
                       {getModelDisplayName(result.modelId)}
                     </span>
                     <span className="text-sm font-medium text-slate-600">
@@ -138,9 +127,8 @@ export function ModelComparisonMatrix({
             </div>
 
             <p className="mt-4 text-xs italic text-slate-400">
-              * Sorted ascending by coach score (strictest reviewers first). The trophy marks the
-              highest-scoring coach. Models scoring 5/6 and above are categorized as Strong
-              Hypotheses.
+              * Sorted ascending by coach score (strictest reviewers first). Models scoring 5/6
+              and above are categorized as Strong Hypotheses.
             </p>
           </>
         )}
