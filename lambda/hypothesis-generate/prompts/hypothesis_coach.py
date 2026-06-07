@@ -1,4 +1,4 @@
-export const HYPOTHESIS_COACH_SYSTEM_PROMPT = `You are a hypothesis-writing coach for digital product experimentation requests.
+HYPOTHESIS_COACH_SYSTEM_PROMPT = """You are a hypothesis-writing coach for digital product experimentation requests.
 
 Your job is to help the user rewrite their hypothesis into a strong version and explain what to improve, using a strict rubric.
 
@@ -51,8 +51,8 @@ Do not repeat this explanation in later responses unless the user asks how the e
 
 Tone:
 Be concise, friendly, and specific.
-Coach, don't judge.`
+Coach, don't judge."""
 
-export function buildCoachUserMessage(hypothesis: string): string {
-  return `Please evaluate the following experimentation hypothesis:\n\n${hypothesis}`
-}
+
+def build_coach_user_message(hypothesis: str) -> str:
+    return f"Please evaluate the following experimentation hypothesis:\n\n{hypothesis}"

@@ -3,7 +3,7 @@
 ## Overview
 
 ```
-Amplify Frontend → API Gateway → Lambda → Amazon Bedrock (Coach only)
+Amplify Frontend → API Gateway → Lambda (Python) → Amazon Bedrock (Coach only)
                                       ↘ CloudWatch Logs
 ```
 
@@ -54,10 +54,27 @@ The frontend never calls Bedrock directly. All LLM calls happen in Lambda.
 
 ## Processing Flow
 
-1. **Template generation (no Bedrock):** `buildHypothesisFromTemplate(input)` produces one raw hypothesis using If X / Then Y / Because Z.
-2. **Coach evaluation (Bedrock, per model):** Send the hypothesis to each selected model with the Hypothesis Coach system prompt.
-3. **Parse:** `parseCoachResponse()` maps coach output to `ModelResult` fields.
+1. **Template generation (no Bedrock):** `build_hypothesis_from_template(input)` produces one raw hypothesis using If X / Then Y / Because Z.
+2. **Coach evaluation (Bedrock, per model):** `invoke_coach()` sends the hypothesis to each selected model with the Hypothesis Coach system prompt via Bedrock Converse.
+3. **Parse:** `parse_coach_response()` maps coach output to `ModelResult` fields.
 4. **Return:** Results sorted descending by coach score.
+
+## Lambda (Python)
+
+| File | Purpose |
+|------|---------|
+| `lambda/hypothesis-generate/handler.py` | API Gateway entry point |
+| `lambda/hypothesis-generate/build_hypothesis_from_template.py` | If X / Then Y / Because Z template |
+| `lambda/hypothesis-generate/bedrock.py` | Bedrock Converse client |
+| `lambda/hypothesis-generate/parse_coach_response.py` | Coach output parser |
+| `lambda/hypothesis-generate/prompts/hypothesis_coach.py` | Coach system prompt |
+| `lambda/hypothesis-generate/constants.py` | Model pool + CORS headers |
+
+- **Handler:** `handler.handler`
+- **Runtime:** Python 3.12
+- **Dependencies:** `boto3` (see `requirements.txt`)
+
+See [lambda/hypothesis-generate/README.md](../lambda/hypothesis-generate/README.md) for packaging and deployment.
 
 ## Bedrock Model Pool
 
@@ -76,8 +93,14 @@ The frontend never calls Bedrock directly. All LLM calls happen in Lambda.
 
 Lambda execution role needs:
 
-- `bedrock:InvokeModel` or `bedrock:Converse` for each model in the pool
+- `bedrock:InvokeModel` and `bedrock:Converse` for each model in the pool
 - `logs:CreateLogGroup`, `logs:CreateLogStream`, `logs:PutLogEvents`
+
+## API Gateway
+
+- Enable CORS for the Amplify frontend origin (or `*` for MVP)
+- Lambda returns CORS headers; API Gateway should proxy them
+- Integrate as **Lambda proxy** integration → `handler.handler`
 
 ## CloudWatch
 
@@ -96,8 +119,10 @@ Not used in MVP:
 
 ## Frontend Integration
 
-Set `VITE_HYPOTHESIS_API_URL` to the API Gateway base URL. The frontend calls:
+Set `VITE_HYPOTHESIS_API_URL` in Amplify environment variables to the API Gateway base URL. The frontend calls:
 
 ```
 POST ${VITE_HYPOTHESIS_API_URL}/hypothesis/generate
 ```
+
+Uncomment the fetch block in `src/services/hypothesisApi.ts` when the API is live.
