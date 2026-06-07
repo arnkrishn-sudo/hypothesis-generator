@@ -81,8 +81,8 @@ See [lambda/hypothesis-generate/README.md](../lambda/hypothesis-generate/README.
 | modelId | displayName |
 |---------|-------------|
 | `amazon.nova-pro-v1:0` | Amazon Nova Pro |
-| `anthropic.claude-sonnet-4-5-20250929-v1:0` | Claude Sonnet 4.5 |
-| `anthropic.claude-haiku-4-5-20251001-v1:0` | Claude Haiku 4.5 |
+| `amazon.nova-lite-v1:0` | Amazon Nova Lite |
+| `mistral.mistral-large-3-675b-instruct` | Mistral Large 3 |
 | `meta.llama3-70b-instruct-v1:0` | Llama 3 70B Instruct |
 | `meta.llama3-8b-instruct-v1:0` | Llama 3 8B Instruct |
 | `openai.gpt-oss-20b-1:0` | OpenAI GPT OSS 20B |

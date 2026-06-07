@@ -62,7 +62,7 @@ function toModelResult(coach: MockCoachResult, generatedHypothesis: string): Mod
 
 const MOCK_COACH_RESULTS: MockCoachResult[] = [
   {
-    modelId: 'anthropic.claude-sonnet-4-5-20250929-v1:0',
+    modelId: 'mistral.mistral-large-3-675b-instruct',
     score: 6,
     suggestions: [
       'Consider specifying the promotional window duration in the hypothesis.',
@@ -99,7 +99,7 @@ const MOCK_COACH_RESULTS: MockCoachResult[] = [
     ],
   },
   {
-    modelId: 'anthropic.claude-haiku-4-5-20251001-v1:0',
+    modelId: 'amazon.nova-lite-v1:0',
     score: 4,
     suggestions: [
       'Ensure audience is named explicitly in the If clause.',

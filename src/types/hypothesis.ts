@@ -35,8 +35,8 @@ export interface BedrockModel {
 
 export const BEDROCK_MODEL_POOL: BedrockModel[] = [
   { modelId: 'amazon.nova-pro-v1:0', displayName: 'Amazon Nova Pro' },
-  { modelId: 'anthropic.claude-sonnet-4-5-20250929-v1:0', displayName: 'Claude Sonnet 4.5' },
-  { modelId: 'anthropic.claude-haiku-4-5-20251001-v1:0', displayName: 'Claude Haiku 4.5' },
+  { modelId: 'amazon.nova-lite-v1:0', displayName: 'Amazon Nova Lite' },
+  { modelId: 'mistral.mistral-large-3-675b-instruct', displayName: 'Mistral Large 3' },
   { modelId: 'meta.llama3-70b-instruct-v1:0', displayName: 'Llama 3 70B Instruct' },
   { modelId: 'meta.llama3-8b-instruct-v1:0', displayName: 'Llama 3 8B Instruct' },
   { modelId: 'openai.gpt-oss-20b-1:0', displayName: 'OpenAI GPT OSS 20B' },

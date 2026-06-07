@@ -1,7 +1,7 @@
 VALID_MODEL_IDS = {
     "amazon.nova-pro-v1:0",
-    "anthropic.claude-sonnet-4-5-20250929-v1:0",
-    "anthropic.claude-haiku-4-5-20251001-v1:0",
+    "amazon.nova-lite-v1:0",
+    "mistral.mistral-large-3-675b-instruct",
     "meta.llama3-70b-instruct-v1:0",
     "meta.llama3-8b-instruct-v1:0",
     "openai.gpt-oss-20b-1:0",
@@ -10,10 +10,7 @@ VALID_MODEL_IDS = {
 }
 
 # Some models must be invoked via inference profile IDs (not foundation model IDs)
-BEDROCK_INVOKE_IDS = {
-    "anthropic.claude-sonnet-4-5-20250929-v1:0": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-    "anthropic.claude-haiku-4-5-20251001-v1:0": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
-}
+BEDROCK_INVOKE_IDS: dict[str, str] = {}
 
 
 def resolve_bedrock_invoke_id(model_id: str) -> str:
