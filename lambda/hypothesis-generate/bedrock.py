@@ -5,6 +5,7 @@ from functools import lru_cache
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 
+from constants import resolve_bedrock_invoke_id
 from prompts.hypothesis_coach import (
     HYPOTHESIS_COACH_SYSTEM_PROMPT,
     build_coach_user_message,
@@ -24,10 +25,11 @@ def invoke_coach(model_id: str, hypothesis: str) -> str:
     """Call Amazon Bedrock Converse API with the Hypothesis Coach prompt."""
     client = _get_bedrock_client()
     user_message = build_coach_user_message(hypothesis)
+    bedrock_model_id = resolve_bedrock_invoke_id(model_id)
 
     try:
         response = client.converse(
-            modelId=model_id,
+            modelId=bedrock_model_id,
             system=[{"text": HYPOTHESIS_COACH_SYSTEM_PROMPT}],
             messages=[
                 {
