@@ -59,7 +59,9 @@ def handler(event, context):
         generated_hypothesis = build_hypothesis_from_template(input_data)
         results = []
 
-        # Evaluate models concurrently to reduce total latency
+        failures = []
+
+        # Evaluate models concurrently; skip individual failures instead of failing the batch
         with ThreadPoolExecutor(max_workers=min(len(selected_models), 4)) as executor:
             futures = {
                 executor.submit(_evaluate_model, model_id, generated_hypothesis): model_id
@@ -71,16 +73,22 @@ def handler(event, context):
                     results.append(future.result())
                 except Exception as error:
                     logger.error("Coach evaluation failed for %s: %s", model_id, error)
-                    return _response(
-                        502,
-                        {
-                            "error": f"Coach evaluation failed for {model_id}",
-                            "detail": str(error),
-                        },
-                    )
+                    failures.append({"modelId": model_id, "error": str(error)})
+
+        if not results:
+            return _response(
+                502,
+                {
+                    "error": "All model evaluations failed",
+                    "failures": failures,
+                },
+            )
 
         results.sort(key=lambda item: item.get("score", 0), reverse=True)
-        return _response(200, {"results": results})
+        body = {"results": results}
+        if failures:
+            body["failures"] = failures
+        return _response(200, body)
 
     except json.JSONDecodeError:
         return _response(400, {"error": "Invalid JSON body"})

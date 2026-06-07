@@ -76,8 +76,12 @@ export function useHypothesisGenerator() {
       setResults(data)
       setActiveAnalysisModel(null)
       setExpandedImproved(new Set())
-    } catch {
-      setErrors(['Failed to generate hypotheses. Please try again.'])
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : 'Failed to generate hypotheses. Please try again.'
+      setErrors([message])
     } finally {
       setIsGenerating(false)
     }

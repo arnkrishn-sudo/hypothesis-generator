@@ -81,9 +81,9 @@ See [lambda/hypothesis-generate/README.md](../lambda/hypothesis-generate/README.
 | modelId | displayName |
 |---------|-------------|
 | `amazon.nova-pro-v1:0` | Amazon Nova Pro |
-| `anthropic.claude-3-sonnet-20240229-v1:0` | Claude 3 Sonnet |
-| `anthropic.claude-3-haiku-20240307-v1:0` | Claude 3 Haiku |
-| `cohere.command-r-plus-v1:0` | Cohere Command R+ |
+| `anthropic.claude-sonnet-4-5-20250929-v1:0` | Claude Sonnet 4.5 |
+| `anthropic.claude-haiku-4-5-20251001-v1:0` | Claude Haiku 4.5 |
+| `meta.llama3-70b-instruct-v1:0` | Llama 3 70B Instruct |
 | `meta.llama3-8b-instruct-v1:0` | Llama 3 8B Instruct |
 | `openai.gpt-oss-20b-1:0` | OpenAI GPT OSS 20B |
 | `google.gemma-3-4b-it` | Google Gemma 3 4B |

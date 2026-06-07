@@ -1,8 +1,8 @@
 VALID_MODEL_IDS = {
     "amazon.nova-pro-v1:0",
-    "anthropic.claude-3-sonnet-20240229-v1:0",
-    "anthropic.claude-3-haiku-20240307-v1:0",
-    "cohere.command-r-plus-v1:0",
+    "anthropic.claude-sonnet-4-5-20250929-v1:0",
+    "anthropic.claude-haiku-4-5-20251001-v1:0",
+    "meta.llama3-70b-instruct-v1:0",
     "meta.llama3-8b-instruct-v1:0",
     "openai.gpt-oss-20b-1:0",
     "google.gemma-3-4b-it",

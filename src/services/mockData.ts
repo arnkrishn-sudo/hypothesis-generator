@@ -62,7 +62,7 @@ function toModelResult(coach: MockCoachResult, generatedHypothesis: string): Mod
 
 const MOCK_COACH_RESULTS: MockCoachResult[] = [
   {
-    modelId: 'anthropic.claude-3-sonnet-20240229-v1:0',
+    modelId: 'anthropic.claude-sonnet-4-5-20250929-v1:0',
     score: 6,
     suggestions: [
       'Consider specifying the promotional window duration in the hypothesis.',
@@ -86,7 +86,7 @@ const MOCK_COACH_RESULTS: MockCoachResult[] = [
       'If we add a 15% discount badge, three Premium benefit bullets, and a countdown timer to the Account Dashboard upgrade pop-up banner for expired premium trial users, then premium subscription conversion rate will increase, because affordability cues and feature reminders reduce upgrade hesitation after trial expiration.',
   },
   {
-    modelId: 'cohere.command-r-plus-v1:0',
+    modelId: 'meta.llama3-70b-instruct-v1:0',
     score: 5,
     suggestions: [
       'Strengthen the causal mechanism by naming specific benefits.',
@@ -99,7 +99,7 @@ const MOCK_COACH_RESULTS: MockCoachResult[] = [
     ],
   },
   {
-    modelId: 'anthropic.claude-3-haiku-20240307-v1:0',
+    modelId: 'anthropic.claude-haiku-4-5-20251001-v1:0',
     score: 4,
     suggestions: [
       'Ensure audience is named explicitly in the If clause.',
