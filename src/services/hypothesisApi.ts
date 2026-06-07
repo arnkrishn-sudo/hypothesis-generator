@@ -27,7 +27,7 @@ export async function generateHypotheses(
     }
 
     const data = (await response.json()) as { results: ModelResult[] }
-    return data.results.sort((a, b) => b.score - a.score)
+    return data.results.sort((a, b) => a.score - b.score)
   }
 
   // Local fallback when VITE_HYPOTHESIS_API_URL is not set

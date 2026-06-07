@@ -17,6 +17,11 @@ export function ModelComparisonMatrix({
   isGenerating,
   onAnalyze,
 }: ModelComparisonMatrixProps) {
+  const topScorerModelId =
+    results && results.length > 0
+      ? results.reduce((best, curr) => (curr.score > best.score ? curr : best)).modelId
+      : null
+
   return (
     <Card className="flex h-full flex-col">
       <div className="flex items-start gap-3 border-b border-slate-100 px-6 py-5">
@@ -26,7 +31,7 @@ export function ModelComparisonMatrix({
         <div>
           <h2 className="text-base font-semibold text-slate-900">Model Comparison Matrix</h2>
           <p className="mt-0.5 text-xs text-slate-500">
-            Cross-model evaluation metrics and quality class
+            Sorted by review strictness — models flagging the most issues appear first
           </p>
         </div>
       </div>
@@ -60,11 +65,11 @@ export function ModelComparisonMatrix({
                   </tr>
                 </thead>
                 <tbody>
-                  {results.map((result, index) => (
+                  {results.map((result) => (
                     <tr key={result.modelId} className="border-b border-slate-50 last:border-0">
                       <td className="py-4 pr-4 font-medium text-slate-800">
                         <span className="inline-flex items-center gap-2">
-                          {index === 0 && (
+                          {result.modelId === topScorerModelId && (
                             <Trophy className="h-4 w-4 text-amber-500" aria-label="Top scorer" />
                           )}
                           {getModelDisplayName(result.modelId)}
@@ -96,14 +101,16 @@ export function ModelComparisonMatrix({
             </div>
 
             <div className="space-y-3 sm:hidden">
-              {results.map((result, index) => (
+              {results.map((result) => (
                 <div
                   key={result.modelId}
                   className="rounded-lg border border-slate-100 p-4 space-y-3"
                 >
                   <div className="flex items-center justify-between">
                     <span className="inline-flex items-center gap-2 font-medium text-slate-800">
-                      {index === 0 && <Trophy className="h-4 w-4 text-amber-500" />}
+                      {result.modelId === topScorerModelId && (
+                        <Trophy className="h-4 w-4 text-amber-500" />
+                      )}
                       {getModelDisplayName(result.modelId)}
                     </span>
                     <span className="text-sm font-medium text-slate-600">
@@ -131,8 +138,9 @@ export function ModelComparisonMatrix({
             </div>
 
             <p className="mt-4 text-xs italic text-slate-400">
-              * Sorted automatically descending by coach score. Models scoring 5/6 and above are
-              categorized as Strong Hypotheses.
+              * Sorted ascending by coach score (strictest reviewers first). The trophy marks the
+              highest-scoring coach. Models scoring 5/6 and above are categorized as Strong
+              Hypotheses.
             </p>
           </>
         )}

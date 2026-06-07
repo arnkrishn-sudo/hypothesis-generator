@@ -171,5 +171,5 @@ export function getMockResultsForModels(
 ): ModelResult[] {
   return MOCK_COACH_RESULTS.filter((r) => selectedModels.includes(r.modelId))
     .map((coach) => toModelResult(coach, generatedHypothesis))
-    .sort((a, b) => b.score - a.score)
+    .sort((a, b) => a.score - b.score)
 }

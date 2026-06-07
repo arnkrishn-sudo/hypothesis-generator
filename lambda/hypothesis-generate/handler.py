@@ -84,7 +84,7 @@ def handler(event, context):
                 },
             )
 
-        results.sort(key=lambda item: item.get("score", 0), reverse=True)
+        results.sort(key=lambda item: item.get("score", 0))
         body = {"results": results}
         if failures:
             body["failures"] = failures
