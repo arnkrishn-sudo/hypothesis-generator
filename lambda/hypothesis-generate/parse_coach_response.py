@@ -1,82 +1,132 @@
 import re
-from typing import Any
+from typing import Any, Optional
 
 from constants import RUBRIC_LABELS
 
+_RUBRIC_STATUSES = ("Pass", "Needs work", "None detected", "Present")
 
-def _parse_rubric_line(raw: str, criterion: str, classification: str) -> dict[str, Any]:
+
+def _normalize_coach_text(raw: str) -> str:
+    """Strip common markdown wrappers so model output formats parse consistently."""
+    text = raw.replace("\r\n", "\n")
+    text = re.sub(r"\*\*([^*]+)\*\*", r"\1", text)
+    text = re.sub(r"^#{1,6}\s*", "", text, flags=re.MULTILINE)
+    return text
+
+
+def _find_rubric_line(normalized: str, criterion: str) -> str:
     escaped = re.escape(criterion)
-    pattern = rf"{escaped}[:\s]+(Pass|Needs work|None detected|Present)[^\n]*"
-    match = re.search(pattern, raw, re.IGNORECASE)
-    line = match.group(0) if match else ""
+    for line in normalized.split("\n"):
+        stripped = line.strip().lstrip("-•* ").strip()
+        if re.match(rf"^{escaped}\s*:", stripped, re.IGNORECASE):
+            return stripped
+    return ""
 
-    passed = bool(
-        re.search(r"pass", line, re.IGNORECASE)
-        or re.search(r"none detected", line, re.IGNORECASE)
-        or (
-            not re.search(r"needs work", line, re.IGNORECASE)
-            and not re.search(r"present", line, re.IGNORECASE)
-            and classification == "Strong Hypothesis"
-        )
-    )
 
-    comment = re.sub(r"^[^:]*:\s*", "", line, flags=re.IGNORECASE).strip()
+def _clean_rubric_comment(comment: str) -> str:
+    comment = comment.strip()
     if not comment:
-        comment = "No comment provided."
+        return "No comment provided."
 
-    # Strip leading status tokens from comment for cleaner display
-    comment = re.sub(
-        r"^(Pass|Needs work|None detected|Present)\s*[-—]?\s*",
-        "",
-        comment,
-        flags=re.IGNORECASE,
-    ).strip() or comment
+    comment = re.sub(r"^\(+|\)+$", "", comment).strip()
+    comment = re.sub(r"^\*+|\*+$", "", comment).strip()
+    return comment or "No comment provided."
+
+
+def _rubric_item_passed(criterion: str, status: str) -> bool:
+    status_lower = status.lower()
+    if criterion == "Measurement leakage":
+        return status_lower == "none detected"
+    return status_lower == "pass"
+
+
+def _parse_rubric_line(normalized: str, criterion: str) -> dict[str, Any]:
+    line = _find_rubric_line(normalized, criterion)
+    if not line:
+        return {"criterion": criterion, "passed": False, "comment": "No comment provided."}
+
+    after_label = re.split(r":\s*", line, maxsplit=1, flags=re.IGNORECASE)
+    remainder = after_label[1] if len(after_label) > 1 else ""
+
+    status_pattern = r"(Pass|Needs work|None detected|Present)\b"
+    status_match = re.search(status_pattern, remainder, re.IGNORECASE)
+    if not status_match:
+        return {"criterion": criterion, "passed": False, "comment": "No comment provided."}
+
+    status = status_match.group(1)
+    passed = _rubric_item_passed(criterion, status)
+    comment = _clean_rubric_comment(remainder[status_match.end() :])
 
     return {"criterion": criterion, "passed": passed, "comment": comment}
 
 
+def _parse_suggestions(normalized: str) -> list[str]:
+    feedback_match = re.search(
+        r"coaching feedback[:\s]*([\s\S]*?)(?=suggested rewrite|alternative|$)",
+        normalized,
+        re.IGNORECASE,
+    )
+    if not feedback_match:
+        return []
+
+    suggestions = []
+    for line in feedback_match.group(1).split("\n"):
+        cleaned = re.sub(r"^[-*•\d.]+\s*", "", line).strip()
+        cleaned = re.sub(r"^#{1,6}\s*", "", cleaned)
+        if cleaned and not cleaned.startswith("---"):
+            suggestions.append(cleaned)
+    return suggestions
+
+
+def _parse_improved_hypothesis(normalized: str) -> Optional[str]:
+    rewrite_match = re.search(
+        r"suggested rewrite[:\s]*([\s\S]*?)(?=alternative|\Z)",
+        normalized,
+        re.IGNORECASE,
+    )
+    if not rewrite_match:
+        return None
+
+    lines = []
+    for line in rewrite_match.group(1).split("\n"):
+        cleaned = re.sub(r"^[-*•]\s*", "", line).strip()
+        if cleaned and not cleaned.startswith("---"):
+            lines.append(cleaned)
+
+    if not lines:
+        return None
+
+    return re.sub(r"\s+", " ", " ".join(lines)).strip()
+
+
+def _parse_alternative_mechanisms(normalized: str) -> list[str]:
+    alt_match = re.search(r"alternative[^:]*:?\s*([\s\S]*?)$", normalized, re.IGNORECASE)
+    if not alt_match:
+        return []
+
+    alternatives = []
+    for line in alt_match.group(1).split("\n"):
+        cleaned = re.sub(r"^[-*•\d.]+\s*", "", line).strip()
+        if cleaned and not cleaned.startswith("---"):
+            alternatives.append(cleaned)
+    return alternatives[:2]
+
+
 def parse_coach_response(raw: str) -> dict[str, Any]:
+    normalized = _normalize_coach_text(raw)
+
     classification = (
         "Strong Hypothesis"
-        if re.search(r"strong hypothesis", raw, re.IGNORECASE)
+        if re.search(r"strong hypothesis", normalized, re.IGNORECASE)
         else "Needs Improvement"
     )
 
-    rubric = [_parse_rubric_line(raw, label, classification) for label in RUBRIC_LABELS]
+    rubric = [_parse_rubric_line(normalized, label) for label in RUBRIC_LABELS]
     score = sum(1 for item in rubric if item["passed"])
 
-    feedback_match = re.search(
-        r"coaching feedback[:\s]*([\s\S]*?)(?=suggested rewrite|alternative|$)",
-        raw,
-        re.IGNORECASE,
-    )
-    suggestions = []
-    if feedback_match:
-        for line in feedback_match.group(1).split("\n"):
-            cleaned = re.sub(r"^[-*•]\s*", "", line).strip()
-            if cleaned:
-                suggestions.append(cleaned)
-
-    rewrite_match = re.search(
-        r"suggested rewrite[^:]*:?\s*([\s\S]*?)(?=alternative|$)",
-        raw,
-        re.IGNORECASE,
-    )
-    improved_hypothesis = None
-    if rewrite_match:
-        first_line = rewrite_match.group(1).strip().split("\n")[0].strip()
-        first_line = re.sub(r"^[-*•]\s*", "", first_line)
-        if first_line:
-            improved_hypothesis = first_line
-
-    alt_match = re.search(r"alternative[^:]*:?\s*([\s\S]*?)$", raw, re.IGNORECASE)
-    alternative_mechanisms = []
-    if alt_match:
-        for line in alt_match.group(1).split("\n"):
-            cleaned = re.sub(r"^[-*•]\s*", "", line).strip()
-            if cleaned:
-                alternative_mechanisms.append(cleaned)
-        alternative_mechanisms = alternative_mechanisms[:2]
+    suggestions = _parse_suggestions(normalized)
+    improved_hypothesis = _parse_improved_hypothesis(normalized)
+    alternative_mechanisms = _parse_alternative_mechanisms(normalized)
 
     result: dict[str, Any] = {
         "classification": classification,
