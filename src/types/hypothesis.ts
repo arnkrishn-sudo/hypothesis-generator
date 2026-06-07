@@ -44,7 +44,7 @@ export const BEDROCK_MODEL_POOL: BedrockModel[] = [
   { modelId: 'qwen.qwen3-vl-235b-a22b', displayName: 'Qwen3 VL 235B' },
 ]
 
-export const DIRECTION_OPTIONS = ['Increase', 'Decrease', 'Reduce', 'Shift'] as const
+export const DIRECTION_OPTIONS = ['Increase', 'Decrease', 'Shift'] as const
 
 export const RUBRIC_CRITERIA = [
   'X – Clear change',

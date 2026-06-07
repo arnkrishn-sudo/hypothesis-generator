@@ -25,7 +25,7 @@ export function PageHeader({ onGenerate, onReset, isGenerating }: PageHeaderProp
               Hypothesis Generator
             </h1>
             <p className="max-w-3xl text-sm leading-relaxed text-slate-600">
-              Generate well-structured experimentation hypotheses using AI based on a proposed
+              Generate well-structured experimentation hypothesis using AI, based on a proposed
               change, audience, location, and expected outcome, and compare outputs across
               multiple LLMs to pick the most causal framework.
             </p>

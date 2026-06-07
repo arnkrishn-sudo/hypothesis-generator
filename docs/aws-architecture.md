@@ -23,7 +23,7 @@ The frontend never calls Bedrock directly. All LLM calls happen in Lambda.
     "proposedChange": "string",
     "userProblem": "string",
     "expectedOutcome": "string",
-    "direction": "Increase | Decrease | Reduce | Shift",
+    "direction": "Increase | Decrease | Shift",
     "reasoning": "string",
     "decisionMetric": "optional",
     "guardrailMetric": "optional",
