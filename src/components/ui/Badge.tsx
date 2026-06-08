@@ -5,20 +5,20 @@ interface BadgeProps {
 
 export function Badge({ label, variant }: BadgeProps) {
   const styles = {
-    strong: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    'needs-improvement': 'bg-amber-50 text-amber-700 border-amber-200',
-    status: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+    strong: 'bg-success/10 text-success border-success/20',
+    'needs-improvement': 'bg-error/10 text-error border-error/20',
+    status: 'bg-success/10 text-success border-success/20',
   }
 
   const dotColors = {
-    strong: 'bg-emerald-500',
-    'needs-improvement': 'bg-amber-500',
-    status: 'bg-emerald-500',
+    strong: 'bg-success',
+    'needs-improvement': 'bg-error',
+    status: 'bg-success',
   }
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-medium ${styles[variant]}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs font-bold ${styles[variant]}`}
     >
       <span className={`h-1.5 w-1.5 rounded-full ${dotColors[variant]}`} />
       {label}

@@ -17,18 +17,18 @@ export function ModelAnalysisCard({ result, isActive }: ModelAnalysisCardProps) 
   return (
     <Card
       id={`analysis-card-${result.modelId}`}
-      className={`scroll-mt-6 overflow-hidden transition-shadow ${isActive ? 'ring-2 ring-violet-300' : ''}`}
+      className={`scroll-mt-6 transition-shadow ${isActive ? 'ring-2 ring-primary/30' : ''}`}
     >
-      <div className="border-b border-slate-100 bg-slate-50/50 px-6 py-4">
+      <div className="border-b border-black/5 bg-bg-main/10 px-6 py-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-violet-500" />
-            <h3 className="text-sm font-semibold text-slate-900">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <h3 className="text-sm font-semibold text-text-primary">
               {getModelDisplayName(result.modelId)}
             </h3>
-            <span className="text-xs text-slate-400">— Coach Output</span>
+            <span className="text-xs text-text-secondary">— Coach Output</span>
           </div>
-          <span className="text-xs font-medium text-slate-500">
+          <span className="text-xs font-medium text-text-secondary">
             Coach score: {result.score} / 6
           </span>
         </div>
@@ -36,10 +36,10 @@ export function ModelAnalysisCard({ result, isActive }: ModelAnalysisCardProps) 
 
       <div className="space-y-5 px-6 py-6">
         <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-text-secondary">
             Generated Hypothesis
           </p>
-          <p className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-700">
+          <p className="rounded-lg border border-black/5 bg-bg-main/30 p-4 text-sm leading-relaxed text-text-primary">
             {result.generatedHypothesis}
           </p>
         </div>

@@ -1,10 +1,8 @@
 import type { HypothesisInput } from '../../types/hypothesis'
 import { DECISION_METRIC_OPTIONS } from '../../types/hypothesis'
+import { INPUT_CLASS } from '../../styles/formControls'
 import { Collapsible } from '../ui/Collapsible'
 import { FormField } from '../ui/FormField'
-
-const inputClass =
-  'w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20'
 
 interface MeasurementSectionProps {
   form: HypothesisInput
@@ -21,7 +19,7 @@ export function MeasurementSection({ form, isOpen, onToggle, onChange }: Measure
       isOpen={isOpen}
       onToggle={onToggle}
     >
-      <p className="mb-4 text-xs text-slate-500">
+      <p className="mb-4 text-xs text-text-secondary">
         Measurement fields are not included in the generated hypothesis and are used only for
         experiment planning.
       </p>
@@ -32,7 +30,7 @@ export function MeasurementSection({ form, isOpen, onToggle, onChange }: Measure
           helper="Primary metric used to evaluate experiment success."
         >
           <select
-            className={inputClass}
+            className={INPUT_CLASS}
             value={form.decisionMetric ?? ''}
             onChange={(e) => onChange('decisionMetric', e.target.value)}
           >
@@ -51,7 +49,7 @@ export function MeasurementSection({ form, isOpen, onToggle, onChange }: Measure
         >
           <input
             type="text"
-            className={inputClass}
+            className={INPUT_CLASS}
             value={form.guardrailMetric ?? ''}
             onChange={(e) => onChange('guardrailMetric', e.target.value)}
             placeholder="e.g. Support ticket volume"
@@ -59,7 +57,7 @@ export function MeasurementSection({ form, isOpen, onToggle, onChange }: Measure
         </FormField>
         <FormField number={10} label="Notes" helper="Additional experiment planning context.">
           <textarea
-            className={`${inputClass} min-h-[80px] resize-y`}
+            className={`${INPUT_CLASS} min-h-[80px] resize-y`}
             value={form.notes ?? ''}
             onChange={(e) => onChange('notes', e.target.value)}
             placeholder="Any additional planning notes..."

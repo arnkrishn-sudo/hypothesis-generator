@@ -19,13 +19,13 @@ export function ModelComparisonMatrix({
 }: ModelComparisonMatrixProps) {
   return (
     <Card className="flex h-full flex-col">
-      <div className="flex items-start gap-3 border-b border-slate-100 px-6 py-5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100">
-          <BarChart2 className="h-4 w-4 text-slate-600" />
+      <div className="flex items-start gap-3 border-b border-black/5 bg-bg-main/10 px-6 py-5">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-bg-main">
+          <BarChart2 className="h-4 w-4 text-text-secondary" />
         </div>
         <div>
-          <h2 className="text-base font-semibold text-slate-900">Model Comparison Matrix</h2>
-          <p className="mt-0.5 text-xs text-slate-500">
+          <h2 className="text-base font-semibold text-text-primary">Model Comparison Matrix</h2>
+          <p className="mt-0.5 text-xs text-text-secondary">
             Sorted by review strictness — models flagging the most issues appear first
           </p>
         </div>
@@ -33,7 +33,7 @@ export function ModelComparisonMatrix({
 
       <div className="flex-1 p-6">
         {isGenerating && (
-          <div className="flex flex-col items-center justify-center gap-3 py-16 text-slate-500">
+          <div className="flex flex-col items-center justify-center gap-3 py-16 text-text-secondary">
             <LoadingSpinner />
             <p className="text-sm">Evaluating hypotheses across models...</p>
           </div>
@@ -41,7 +41,7 @@ export function ModelComparisonMatrix({
 
         {!isGenerating && !results && (
           <div className="flex items-center justify-center py-16 text-center">
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-text-secondary">
               Generate hypotheses to compare coach evaluations across models.
             </p>
           </div>
@@ -52,7 +52,7 @@ export function ModelComparisonMatrix({
             <div className="hidden sm:block overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-slate-100 text-xs font-medium uppercase tracking-wide text-slate-400">
+                  <tr className="border-b border-black/5 text-[10px] font-bold uppercase tracking-wider text-text-secondary">
                     <th className="pb-3 pr-4">Model</th>
                     <th className="pb-3 pr-4">Classification</th>
                     <th className="pb-3 pr-4">Score</th>
@@ -61,11 +61,9 @@ export function ModelComparisonMatrix({
                 </thead>
                 <tbody>
                   {results.map((result) => (
-                    <tr key={result.modelId} className="border-b border-slate-50 last:border-0">
-                      <td className="py-4 pr-4 font-medium text-slate-800">
-                        <span className="inline-flex items-center gap-2">
-                          {getModelDisplayName(result.modelId)}
-                        </span>
+                    <tr key={result.modelId} className="border-b border-black/5 last:border-0">
+                      <td className="py-4 pr-4 font-medium text-text-primary">
+                        {getModelDisplayName(result.modelId)}
                       </td>
                       <td className="py-4 pr-4">
                         <Badge
@@ -77,7 +75,7 @@ export function ModelComparisonMatrix({
                           }
                         />
                       </td>
-                      <td className="py-4 pr-4 font-medium text-slate-700">
+                      <td className="py-4 pr-4 font-medium text-text-primary">
                         {result.score} / 6
                       </td>
                       <td className="py-4">
@@ -96,13 +94,13 @@ export function ModelComparisonMatrix({
               {results.map((result) => (
                 <div
                   key={result.modelId}
-                  className="rounded-lg border border-slate-100 p-4 space-y-3"
+                  className="space-y-3 rounded-lg border border-black/5 bg-bg-main/30 p-4"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-medium text-slate-800">
+                    <span className="font-medium text-text-primary">
                       {getModelDisplayName(result.modelId)}
                     </span>
-                    <span className="text-sm font-medium text-slate-600">
+                    <span className="text-sm font-medium text-text-secondary">
                       {result.score} / 6
                     </span>
                   </div>
@@ -126,7 +124,7 @@ export function ModelComparisonMatrix({
               ))}
             </div>
 
-            <p className="mt-4 text-xs italic text-slate-400">
+            <p className="mt-4 text-xs italic text-text-secondary">
               * Sorted ascending by coach score (strictest reviewers first). Models scoring 5/6
               and above are categorized as Strong Hypotheses.
             </p>

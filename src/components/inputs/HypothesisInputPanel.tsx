@@ -1,13 +1,11 @@
 import type { HypothesisInput } from '../../types/hypothesis'
 import { DIRECTION_OPTIONS } from '../../types/hypothesis'
+import { INPUT_CLASS } from '../../styles/formControls'
 import { Badge } from '../ui/Badge'
 import { Card } from '../ui/Card'
 import { FormField } from '../ui/FormField'
 import { MeasurementSection } from './MeasurementSection'
 import { ModelSelection } from './ModelSelection'
-
-const inputClass =
-  'w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400 focus:border-violet-500 focus:outline-none focus:ring-2 focus:ring-violet-500/20'
 
 interface HypothesisInputPanelProps {
   form: HypothesisInput
@@ -30,10 +28,10 @@ export function HypothesisInputPanel({
 }: HypothesisInputPanelProps) {
   return (
     <Card>
-      <div className="flex items-start justify-between gap-4 border-b border-slate-100 px-6 py-5">
+      <div className="flex items-start justify-between gap-4 border-b border-black/5 bg-bg-main/10 px-6 py-5">
         <div>
-          <h2 className="text-base font-semibold text-slate-900">Hypothesis Inputs</h2>
-          <p className="mt-0.5 text-xs text-slate-500">
+          <h2 className="text-base font-semibold text-text-primary">Hypothesis Inputs</h2>
+          <p className="mt-0.5 text-xs text-text-secondary">
             Translate product insights into structured parameters
           </p>
         </div>
@@ -50,7 +48,7 @@ export function HypothesisInputPanel({
         >
           <input
             type="text"
-            className={inputClass}
+            className={INPUT_CLASS}
             value={form.targetAudience}
             onChange={(e) => onFieldChange('targetAudience', e.target.value)}
           />
@@ -65,7 +63,7 @@ export function HypothesisInputPanel({
         >
           <input
             type="text"
-            className={inputClass}
+            className={INPUT_CLASS}
             value={form.location}
             onChange={(e) => onFieldChange('location', e.target.value)}
           />
@@ -79,7 +77,7 @@ export function HypothesisInputPanel({
           helper="What specific change will users see in the variant?"
         >
           <textarea
-            className={`${inputClass} min-h-[100px] resize-y`}
+            className={`${INPUT_CLASS} min-h-[100px] resize-y`}
             value={form.proposedChange}
             onChange={(e) => onFieldChange('proposedChange', e.target.value)}
           />
@@ -93,7 +91,7 @@ export function HypothesisInputPanel({
           helper="What friction, confusion, concern, or unmet need are you trying to address?"
         >
           <textarea
-            className={`${inputClass} min-h-[80px] resize-y`}
+            className={`${INPUT_CLASS} min-h-[80px] resize-y`}
             value={form.userProblem}
             onChange={(e) => onFieldChange('userProblem', e.target.value)}
           />
@@ -108,7 +106,7 @@ export function HypothesisInputPanel({
         >
           <input
             type="text"
-            className={inputClass}
+            className={INPUT_CLASS}
             value={form.expectedOutcome}
             onChange={(e) => onFieldChange('expectedOutcome', e.target.value)}
           />
@@ -122,7 +120,7 @@ export function HypothesisInputPanel({
           helper="What direction should the outcome move?"
         >
           <select
-            className={inputClass}
+            className={INPUT_CLASS}
             value={form.direction}
             onChange={(e) => onFieldChange('direction', e.target.value)}
           >
@@ -142,7 +140,7 @@ export function HypothesisInputPanel({
           helper="Why do you believe this change will influence user behavior?"
         >
           <textarea
-            className={`${inputClass} min-h-[80px] resize-y`}
+            className={`${INPUT_CLASS} min-h-[80px] resize-y`}
             value={form.reasoning}
             onChange={(e) => onFieldChange('reasoning', e.target.value)}
           />

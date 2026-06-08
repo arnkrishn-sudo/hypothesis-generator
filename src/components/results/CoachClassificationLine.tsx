@@ -9,7 +9,7 @@ export function CoachClassificationLine({ classification }: CoachClassificationL
   const display = getClassificationDisplay(classification)
 
   return (
-    <p className="flex items-center gap-2 text-sm text-slate-800">
+    <p className="flex items-center gap-2 text-sm text-text-primary">
       <span className="text-base leading-none" role="img" aria-hidden="true">
         {display.emoji}
       </span>

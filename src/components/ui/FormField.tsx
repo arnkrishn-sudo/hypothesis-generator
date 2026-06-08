@@ -20,18 +20,18 @@ export function FormField({
   return (
     <div className="space-y-2">
       <div className="flex items-baseline justify-between gap-4">
-        <label className="text-sm font-medium text-slate-800">
+        <label className="text-sm font-medium text-text-primary">
           {number}. {label}
-          {required && <span className="text-red-500"> *</span>}
+          {required && <span className="text-error"> *</span>}
         </label>
         {category && (
-          <span className="shrink-0 text-xs font-medium uppercase tracking-wide text-slate-400">
+          <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider text-text-secondary">
             {category}
           </span>
         )}
       </div>
       {children}
-      <p className="text-xs leading-relaxed text-slate-500">{helper}</p>
+      <p className="text-xs leading-relaxed text-text-secondary">{helper}</p>
     </div>
   )
 }

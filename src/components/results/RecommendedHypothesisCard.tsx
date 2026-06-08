@@ -20,12 +20,12 @@ export function RecommendedHypothesisCard({
   onCopy,
 }: RecommendedHypothesisCardProps) {
   return (
-    <Card className="overflow-hidden border-violet-200">
-      <div className="flex items-center gap-2 border-b border-violet-100 bg-violet-50/50 px-6 py-5">
-        <Trophy className="h-5 w-5 text-amber-500" />
+    <Card className="overflow-hidden border-primary/20">
+      <div className="flex items-center gap-2 border-b border-primary/10 bg-primary/5 px-6 py-5">
+        <Trophy className="h-5 w-5 text-primary" />
         <div>
-          <h2 className="text-base font-semibold text-slate-900">Recommended Hypothesis</h2>
-          <p className="mt-0.5 text-xs text-slate-500">
+          <h2 className="text-base font-semibold text-text-primary">Recommended Hypothesis</h2>
+          <p className="mt-0.5 text-xs text-text-secondary">
             Top coach score — {getModelDisplayName(result.modelId)} ({result.score} / 6)
           </p>
         </div>
@@ -33,15 +33,15 @@ export function RecommendedHypothesisCard({
 
       <div className="space-y-4 px-6 py-6">
         <div>
-          <p className="mb-2 text-sm font-bold text-slate-900">1. Classification (visual):</p>
+          <p className="mb-2 text-sm font-bold text-text-primary">1. Classification (visual):</p>
           <CoachClassificationLine classification={result.classification} />
         </div>
 
         <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-wider text-text-secondary">
             Generated Hypothesis
           </p>
-          <p className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm leading-relaxed text-slate-700">
+          <p className="rounded-lg border border-black/5 bg-bg-main/30 p-4 text-sm leading-relaxed text-text-primary">
             {result.generatedHypothesis}
           </p>
         </div>
@@ -60,7 +60,7 @@ export function RecommendedHypothesisCard({
 
         {isImprovedExpanded && result.improvedHypothesis && (
           <div>
-            <p className="mb-2 text-sm font-bold text-slate-900">
+            <p className="mb-2 text-sm font-bold text-text-primary">
               4. Suggested rewrite (If / Then / Because):
             </p>
             <HighlightedRewrite text={result.improvedHypothesis} />

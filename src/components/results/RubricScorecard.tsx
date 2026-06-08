@@ -11,10 +11,10 @@ export function RubricScorecard({ rubric }: RubricScorecardProps) {
   return (
     <ul className="space-y-2.5">
       {items.map((item) => (
-        <li key={item.criterion} className="flex gap-2 text-sm leading-relaxed text-slate-700">
-          <span className="mt-0.5 shrink-0 text-slate-400">•</span>
+        <li key={item.criterion} className="flex gap-2 text-sm leading-relaxed text-text-primary">
+          <span className="mt-0.5 shrink-0 text-text-secondary">•</span>
           <p>
-            <span className="font-semibold text-slate-900">{item.criterion}:</span>{' '}
+            <span className="font-semibold text-text-primary">{item.criterion}:</span>{' '}
             {formatRubricLine(item)}
           </p>
         </li>
